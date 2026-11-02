@@ -89,4 +89,30 @@ def _get_island_cities(start_city, visited):
 
     # Collect the island cities
     island_cities = []
-    
+    while queue: 
+        # Take the next city
+        current = queue.popleft()
+        island_cities.append(current)
+
+        for neighbor in current.neighbors:
+            # Check for unvisited neighbors
+            if neighbor not in visited:
+                visited.add(neighbor)
+                queue.append(neighbor)
+    return island_cities
+        
+# Task 3 Island counter
+def count_islands(cities):
+    visited = set()
+    counter = 0
+
+    # Loop through every city
+    for city in cities:
+        # Start a new island when a city hasnt been visited 
+        if city not in visited:
+            counter += 1
+            _get_island_cities(city, visited)
+    return counter
+
+print(count_islands(cities))
+
