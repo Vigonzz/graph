@@ -1,6 +1,8 @@
 # Violet Gonzalez
 # Module 4:
 
+from collections import deque
+
 # Task 1:
 class City:
 
@@ -31,5 +33,60 @@ def build_graph(population_file, road_file):
             line = line.strip()
             if not line:
                 continue
+            # split the lines and ensure to change the pop to a int
+            city_name, population = line.split(":", 1)
+            city_name = city_name.strip()
+            population = int(population.strip())
 
-build_graph("city_population.txt", "road_network.txt")
+            # Skip the duplicate names (The file actually holds some duplicates but the assignment ask
+            # for an assumption of a unique name)
+            if city_name in city_by_name:
+                continue
+
+            # Create the city and store it
+            new_city = City(city_name, population)
+            city_by_name[city_name] = new_city
+
+    # Open the road file
+    with open(road_file, encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+             # split the lines into the two connected names
+            city_a, city_b = line.split(":", 1)
+            city_a = city_a.strip()
+            city_b = city_b.strip()
+
+            # Look up the city objects
+            first_city = city_by_name[city_a] 
+            second_city = city_by_name[city_b] 
+
+            first_city.add_neighbor(second_city)
+            second_city.add_neighbor(first_city)
+
+    #  Return the list:
+    return list(city_by_name.values())
+
+
+cities = build_graph("city_population.txt", "road_network.txt")
+print(len(cities))
+for city in cities:
+    if city.name == "Irvine":
+        print(city.neighbors)
+
+
+for city in cities:
+    if city.name == "Long Beach":
+        print(city.neighbors)
+
+# Helper function to collect the found cities
+def _get_island_cities(start_city, visited):
+    queue = deque([start_city])
+
+    # Add city to visited so we dont count it twice
+    visited.add(start_city)
+
+    # Collect the island cities
+    island_cities = []
+    
