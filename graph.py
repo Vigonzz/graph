@@ -137,3 +137,50 @@ def island_populations(cities):
     return island_total_pop
 
 print(island_populations(cities))
+
+# Task 5: Min highway between two cities
+
+def min_highway(start, end):
+    # Check to see if it is the same city
+    if start == end:
+        return 0
+
+    visited = set()
+    visited.add(start)
+
+    # queue the distance 
+    queue = deque([(start, 0)])
+    while queue:
+        current, distance = queue.popleft()
+    
+    # Check each neighbor
+        for neighbor in current.neighbors:
+            if neighbor == end:
+                return distance + 1
+            elif neighbor not in visited:
+                visited.add(neighbor)
+                queue.append((neighbor, distance + 1))
+    # Only occurs when the cities are on different islands
+    return -1
+
+# Find city
+def _find_city(island_cities, name):
+    for city in island_cities:
+        if city.name == name:
+            return city
+    return None
+
+# Testing min_highway
+irvine = _find_city(cities, "Irvine")
+
+to_irvine = _find_city(cities, "Irvine")
+to_lb = _find_city(cities, "Long Beach")
+to_albany = _find_city(cities, "Albany")
+to_gg = _find_city(cities, "Garden Grove")
+to_ny = _find_city(cities, "New York")
+
+print(min_highway(irvine, to_irvine))
+print(min_highway(irvine, to_lb))
+print(min_highway(irvine, to_albany))
+print(min_highway(irvine, to_gg))
+print(min_highway(irvine, to_ny))
