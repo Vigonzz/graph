@@ -80,8 +80,9 @@ for city in cities:
     if city.name == "Long Beach":
         print(city.neighbors)
 
-# Helper function to collect the found cities
+
 def _get_island_cities(start_city, visited):
+    """ Helper function to collect the found cities """
     queue = deque([start_city])
 
     # Add city to visited so we dont count it twice
@@ -116,3 +117,23 @@ def count_islands(cities):
 
 print(count_islands(cities))
 
+# Task 4:
+
+def island_populations(cities):
+    # Keep the helpers result and add its population to find the island population
+    visited = set()
+    island_total_pop = []
+
+    # Loop through every city
+    for city in cities:
+        # Start a new island when a city hasnt been visited 
+        if city not in visited:
+            island = _get_island_cities(city, visited)
+            total = 0
+            # Get the island and total it together
+            for island_city in island:
+                total += island_city.population
+            island_total_pop.append(total)
+    return island_total_pop
+
+print(island_populations(cities))
