@@ -3,6 +3,10 @@
 
 from collections import deque
 
+# AI transparency: Claude was used to help answer questions, debug, check structure, and assist with steps
+# https://claude.ai/share/90a32640-d409-435d-9c25-43d36cb5ed0a
+# All code is written by me
+
 # Task 1:
 class City:
 
@@ -68,9 +72,8 @@ def build_graph(population_file, road_file):
     #  Return the list:
     return list(city_by_name.values())
 
-
 cities = build_graph("city_population.txt", "road_network.txt")
-print(len(cities))
+
 for city in cities:
     if city.name == "Irvine":
         print(city.neighbors)
@@ -86,12 +89,17 @@ def _get_island_cities(start_city, visited):
     queue = deque([start_city])
 
     # Add city to visited so we dont count it twice
+    # Looked for refernces of .add()
+    # Codecademy. (2025, July 26). Python: Sets: .add(). https://www.codecademy.com/resources/docs/python/sets/add 
+
     visited.add(start_city)
 
     # Collect the island cities
     island_cities = []
     while queue: 
         # Take the next city
+        # Needed a reminder of popleft and its implementation:
+        # GeeksforGeeks. (2026c, May 29). Deque in python. https://www.geeksforgeeks.org/python/deque-in-python/ 
         current = queue.popleft()
         island_cities.append(current)
 
@@ -103,6 +111,9 @@ def _get_island_cities(start_city, visited):
     return island_cities
         
 # Task 3 Island counter
+
+# Found a reference to better understand set() 
+# GeeksforGeeks. (2026a, February 17). Set() function in Python. https://www.geeksforgeeks.org/python/python-set-function/ 
 def count_islands(cities):
     visited = set()
     counter = 0
@@ -114,8 +125,6 @@ def count_islands(cities):
             counter += 1
             _get_island_cities(city, visited)
     return counter
-
-print(count_islands(cities))
 
 # Task 4:
 
@@ -135,8 +144,6 @@ def island_populations(cities):
                 total += island_city.population
             island_total_pop.append(total)
     return island_total_pop
-
-print(island_populations(cities))
 
 # Task 5: Min highway between two cities
 
@@ -170,7 +177,21 @@ def _find_city(island_cities, name):
             return city
     return None
 
+# Test:
+
+# num of cities
+print("\n---number of cities---")
+print(len(cities))
+# test for island count:
+print("\n---Number of islands---")
+print(count_islands(cities))
+
+# population for the island
+print("\n---Island Population---")
+print(island_populations(cities))
+
 # Testing min_highway
+print("\n---Test unique highways---")
 irvine = _find_city(cities, "Irvine")
 
 to_irvine = _find_city(cities, "Irvine")
